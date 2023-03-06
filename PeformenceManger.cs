@@ -50,7 +50,6 @@ public class PeformenceManger : MonoBehaviour
     {
         lastPos = Input.mousePosition;
         QualitySettings.vSyncCount = 0;
-        Screen.SetResolution(1024, 320, FullScreenMode.Windowed);
         while (true)
         {
             yield return new WaitForSecondsRealtime(checkTime);
@@ -66,7 +65,6 @@ public class PeformenceManger : MonoBehaviour
         if ((Mathf.Abs(lastPos.x - Input.mousePosition.x) > allowedPixelChange || Mathf.Abs(lastPos.y - Input.mousePosition.y) > allowedPixelChange) && Application.isFocused)
         {
             doActive();
-            Debug.Log("\t\t\t must be active :)" + Input.anyKey + "\t" + Input.anyKeyDown);
         }
         lastPos = Input.mousePosition;
     }
