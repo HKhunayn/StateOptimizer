@@ -14,7 +14,7 @@
   simply download the script (PeformenceManger.cs file) then after importing it to your project, put it in active gameObject.
  
  ## Application unity-based recommended settings 
-  ![recommendedSettings](https://user-images.githubusercontent.com/102166198/223012219-c8d7e5a5-a4fd-4ccb-8c5a-d0967a4956ae.png)
+  ![recommendedSettings](https://user-images.githubusercontent.com/102166198/223015254-79298f8b-0651-4f8a-9d0a-431519b682f6.png)
 
  ## Known Issue
   when your game/application is in notFouced mode and you want to change the window location, it is updating the location every notFoucedFPS. To fix it you have 2 options:
