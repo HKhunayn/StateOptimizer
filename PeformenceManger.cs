@@ -12,7 +12,7 @@ public class PeformenceManger : MonoBehaviour
     [SerializeField] float checkTime = 1f;
     [Min(0), Tooltip("How many moving pixel needed for the mouse to active")]
     [SerializeField] float allowedPixelChange = 2f;
-    [Min(0), Tooltip("will not be working in Editor")]
+    [Min(0), Tooltip("will not be working in Editor if enabled")]
     [SerializeField] bool disableInEditor= true;
 
     [Header("Active Mode:")]
