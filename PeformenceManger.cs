@@ -12,6 +12,8 @@ public class PeformenceManger : MonoBehaviour
     [SerializeField] float checkTime = 1f;
     [Min(0), Tooltip("How many moving pixel needed for the mouse to active")]
     [SerializeField] float allowedPixelChange = 2f;
+    [Min(0), Tooltip("How many moving pixel needed for the mouse to active")]
+    [SerializeField] bool disableInEditor= true;
 
     [Header("Active Mode:")]
     [Min(0), Tooltip("How many frame per second for not Active mode \n(0 for current resolution max)")]
@@ -48,17 +50,23 @@ public class PeformenceManger : MonoBehaviour
 
     IEnumerator Start()
     {
-        lastPos = Input.mousePosition;
-        QualitySettings.vSyncCount = 0;
-        while (true)
+        if (disableInEditor && Application.isEditor) { }
+        else
         {
-            yield return new WaitForSecondsRealtime(checkTime);
-            isMouseChanged();
-            if (lastActive + idleTime <= Time.time)
+            lastPos = Input.mousePosition;
+            QualitySettings.vSyncCount = 0;
+            while (true)
             {
-                doIdle();
+                yield return new WaitForSecondsRealtime(checkTime);
+                isMouseChanged();
+                if (lastActive + idleTime <= Time.time)
+                {
+                    doIdle();
+                }
             }
+
         }
+
     }
 
     private void isMouseChanged() { // check weather the mouse changed or not
@@ -87,6 +95,8 @@ public class PeformenceManger : MonoBehaviour
 
     private void doActive()// Active state
     {
+        if (disableInEditor && Application.isEditor)
+            return;
         lastActive = Time.time;
         Application.targetFrameRate = activeFPS == 0? Screen.currentResolution.refreshRate : activeFPS;
         ScalableBufferManager.ResizeBuffers(activeBufferManger, activeBufferManger);
@@ -96,6 +106,8 @@ public class PeformenceManger : MonoBehaviour
 
     private void doIdle() // idle/not fouced state
     {
+        if (disableInEditor && Application.isEditor)
+            return;
         GC.Collect();
         if (Application.isFocused) // idle state
         {
