@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Thank you for using the PeformenceManger script that means a lot to me!
+// Feel free to use it in any project.
+// Check for the latest updates from https://github.com/HKhunayn/PeformenceManger
+
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -20,7 +24,7 @@ public class PeformenceManger : MonoBehaviour
     [SerializeField] int activeFPS = 0;
     [Range(0.1f,1f),Tooltip("change the bufferManger scale")]
     [SerializeField] float activeBufferManger = 1f;
-    [Tooltip("AutoSimulate when the active mode enabled \n(false means the physics will be stopped)")]
+    [Tooltip("AutoSimulate when the active mode enabled \n(false means the physics will be stopped) works only for versions less than 2020.3")]
     [SerializeField] bool activePhysicsAutoSimulate = true;
     [Range(1, 255), Tooltip("less iterations means less physics accurecy \n(this is a 3dsolver / 2dVelocity iterations)")]
     [SerializeField] int activePhysicsIterations = 4;
@@ -30,7 +34,7 @@ public class PeformenceManger : MonoBehaviour
     [SerializeField] int idleFPS = 30;
     [Range(0.1f, 1f), Tooltip("change the bufferManger scale")]
     [SerializeField] float idleBufferManger = 0.5f;
-    [Tooltip("AutoSimulate when the idle mode enabled \n(false means the physics will be stopped)")]
+    [Tooltip("AutoSimulate when the idle mode enabled \n(false means the physics will be stopped)  works only for versions less than 2020.3")]
     [SerializeField] bool idlePhysicsAutoSimulate = true;
     [Range(1,255),Tooltip("less iterations means less physics accurecy \n(this is a 3dsolver / 2dVelocity iterations)")]
     [SerializeField] int idlePhysicsIterations = 2;
@@ -40,7 +44,7 @@ public class PeformenceManger : MonoBehaviour
     [SerializeField] int notFocusedFPS = 5;
     [Range(0.1f, 1f), Tooltip("change the bufferManger scale")]
     [SerializeField] float notFocusedBufferManger = 0.1f;
-    [Tooltip("AutoSimulate when the not focused mode enabled \n(false means the physics will be stopped)")]
+    [Tooltip("AutoSimulate when the not focused mode enabled \n(false means the physics will be stopped)  works only for versions less than 2020.3")]
     [SerializeField] bool notFocusedPhysicsAutoSimulate = false;
     [Range(1, 255), Tooltip("less iterations means less physics accurecy \n(this is a 3dsolver / 2dVelocity iterations)")]
     [SerializeField] int notFocusedPhysicsIterations = 1;
@@ -100,7 +104,10 @@ public class PeformenceManger : MonoBehaviour
         lastActive = Time.time;
         Application.targetFrameRate = activeFPS == 0? Screen.currentResolution.refreshRate : activeFPS;
         ScalableBufferManager.ResizeBuffers(activeBufferManger, activeBufferManger);
-        Physics.autoSimulation = Physics2D.autoSimulation = activePhysicsAutoSimulate;
+        #if UNITY_2020_3_OR_NEWER
+        #else
+            Physics.autoSimulation = Physics2D.autoSimulation = activePhysicsAutoSimulate;
+        #endif
         Physics.defaultSolverIterations = Physics2D.velocityIterations = activePhysicsIterations;
     }
 
@@ -113,14 +120,21 @@ public class PeformenceManger : MonoBehaviour
         {
             Application.targetFrameRate = idleFPS == 0 ? Screen.currentResolution.refreshRate : idleFPS;
             ScalableBufferManager.ResizeBuffers(idleBufferManger, idleBufferManger);
-            Physics.autoSimulation = Physics2D.autoSimulation = idlePhysicsAutoSimulate;
+            #if UNITY_2020_3_OR_NEWER
+            #else
+                Physics.autoSimulation = Physics2D.autoSimulation = idlePhysicsAutoSimulate;
+            #endif
+
             Physics.defaultSolverIterations = Physics2D.velocityIterations = idlePhysicsIterations;
         }
 
         else { // not fouced state
             Application.targetFrameRate = notFocusedFPS == 0 ? Screen.currentResolution.refreshRate : notFocusedFPS;
             ScalableBufferManager.ResizeBuffers(notFocusedBufferManger, notFocusedBufferManger);
-            Physics.autoSimulation = Physics2D.autoSimulation = notFocusedPhysicsAutoSimulate;
+            #if UNITY_2020_3_OR_NEWER
+            #else
+                Physics.autoSimulation = Physics2D.autoSimulation = notFocusedPhysicsAutoSimulate;
+            #endif
             Physics.defaultSolverIterations = Physics2D.velocityIterations = notFocusedPhysicsIterations;
         }
             
